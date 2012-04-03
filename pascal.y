@@ -19,7 +19,7 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment
+%type <str> program block math definition assignment stmt
 %type <num> const_val
 
 %%
@@ -33,9 +33,14 @@ const_val:
 	INTEGER					{ $$ = $1; }
 
 block:
-	BLOCK_BEGIN math BLOCK_END		{ $$ = strconcat("{", strconcat($2,"}")); }
-	| BLOCK_BEGIN definition BLOCK_END	{ $$ = strconcat("{", strconcat($2,"}")); }
-	| BLOCK_BEGIN assignment BLOCK_END	{ $$ = strconcat("{", strconcat($2,"}")); }
+	BLOCK_BEGIN stmt BLOCK_END		{ $$ = strconcat("{", strconcat($2,"}")); }
+	| BLOCK_BEGIN block BLOCK_END		{ $$ = strconcat("{", strconcat($2,"}")); }
+
+stmt:
+	math stmt				{ $$ = strconcat($1, $2); }
+	| definition stmt			{ $$ = strconcat($1, $2); }
+	| assignment stmt			{ $$ = strconcat($1, $2); }
+	| 					{ $$ = ""; }
 
 math:
 	const_val SEMICOLON			{ $$ = strconcat(intToStr($1), ";"); }
