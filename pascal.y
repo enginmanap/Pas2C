@@ -24,7 +24,7 @@
 %%
 
 program:
-	program block				{ printf("\n"); }
+	program block				{ printf(" %s \n", $2); }
 	|
 	;
 
@@ -32,8 +32,8 @@ const_val:
 	INTEGER					{ $$ = $1; }
 
 block:
-	BLOCK_BEGIN math BLOCK_END		{ printf("{ %s }", $2); }
-	| BLOCK_BEGIN definition BLOCK_END	{ printf("{ %s }", $2); }
+	BLOCK_BEGIN math BLOCK_END		{ $$ = strconcat("{", strconcat($2,"}")); }
+	| BLOCK_BEGIN definition BLOCK_END	{ $$ = strconcat("{", strconcat($2,"}")); }
 
 math:
 	const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
