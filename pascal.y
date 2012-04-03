@@ -18,7 +18,7 @@
 %token <str> VARIABLE
 
 
-%type <str> program func block
+%type <str> program block math definition
 %type <num> const_val
 
 %%
@@ -32,14 +32,17 @@ const_val:
 	INTEGER					{ $$ = $1; }
 
 block:
-	BLOCK_BEGIN func BLOCK_END		{ printf("{ %s }", $2); }
+	BLOCK_BEGIN math BLOCK_END		{ printf("{ %s }", $2); }
+	| BLOCK_BEGIN definition BLOCK_END	{ printf("{ %s }", $2); }
 
-func:
+math:
 	const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
 	| const_val '-' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
 	| const_val '*' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("*", strconcat(intToStr($3), ";"))); }
 	| const_val '/' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
-	| VAR_INTEGER VARIABLE SEMICOLON	{ $$ = strconcat("int ", strconcat($2, ";"));}
+
+definition:
+	 VAR_INTEGER VARIABLE SEMICOLON		{ $$ = strconcat("int ", strconcat($2, ";"));}
 
 %%
 void yyerror(char *s) {
