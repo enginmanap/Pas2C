@@ -13,7 +13,7 @@
 %token <num> INTEGER
 %token BLOCK_BEGIN
 %token BLOCK_END
-%token VAR_INTEGER
+%token DEF_INTEGER
 %token SEMICOLON
 %token <str> VARIABLE
 
@@ -42,7 +42,7 @@ math:
 	| const_val '/' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
 
 definition:
-	 VAR_INTEGER VARIABLE SEMICOLON		{ $$ = strconcat("int ", strconcat($2, ";"));}
+	 DEF_INTEGER VARIABLE SEMICOLON		{ $$ = strconcat("int ", strconcat($2, ";"));}
 
 %%
 void yyerror(char *s) {

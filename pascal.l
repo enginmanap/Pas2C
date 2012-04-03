@@ -12,7 +12,7 @@ variable 	{alpha}({alpha}|{digit})*
 
 "begin"		{return BLOCK_BEGIN; }
 "end"		{return BLOCK_END; }
-"integer"	{return VAR_INTEGER;}
+"integer"	{return DEF_INTEGER;}
 
 {variable}	{
 		  yylval.str = strdup(yytext);
