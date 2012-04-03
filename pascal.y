@@ -16,19 +16,23 @@
 %token DEF_INTEGER
 %token SEMICOLON
 %token ASSIGNMENT
+%token START_PROGRAM
+%token PERIOD
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list
+%type <str> program block math definition assignment stmt stmt_list main_block
 %type <num> const_val
 
 %%
-
+ 
 program:
-	program block				{ printf(" %s \n", $2); }
-	|
+	main_block				{ printf(" %s \n", $1); }
 	;
 
+main_block:
+	START_PROGRAM VARIABLE block PERIOD	{ $$ = strconcat("int main() ", $3);}
+	;
 const_val:
 	INTEGER					{ $$ = $1; }
 
