@@ -28,38 +28,38 @@
 %%
  
 program:
-	main_block				{ printf(" %s \n", $1); }
+	main_block					{ printf("%s \n", $1); }
 	;
 
 main_block:
-	START_PROGRAM VARIABLE block PERIOD	{ $$ = strconcat("int main() ", $3);}
+	START_PROGRAM VARIABLE SEMICOLON block PERIOD	{ $$ = strconcat("int main() ", $4);}
 	;
 const_val:
-	INTEGER					{ $$ = $1; }
+	INTEGER						{ $$ = $1; }
 
 block:
-	BLOCK_BEGIN stmt_list BLOCK_END		{ $$ = strconcat("{", strconcat($2,"}")); }
+	BLOCK_BEGIN stmt_list BLOCK_END			{ $$ = strconcat("{", strconcat($2,"}")); }
 
 stmt_list:
-	stmt					{ $$ = $1; }
-	| stmt_list stmt			{ $$ = strconcat($1, $2); }
+	stmt						{ $$ = $1; }
+	| stmt_list stmt				{ $$ = strconcat($1, $2); }
 stmt:
-	math					{ $$ = $1; }
-	| definition	 			{ $$ = $1; }
-	| assignment 				{ $$ = $1; }
-	| block					{ $$ = $1; }
+	math						{ $$ = $1; }
+	| definition	 				{ $$ = $1; }
+	| assignment 					{ $$ = $1; }
+	| block						{ $$ = $1; }
 math:
-	const_val SEMICOLON			{ $$ = strconcat(intToStr($1), ";"); }
-	| const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
-	| const_val '-' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
-	| const_val '*' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("*", strconcat(intToStr($3), ";"))); }
-	| const_val '/' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
+	const_val SEMICOLON				{ $$ = strconcat(intToStr($1), ";"); }
+	| const_val '+' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
+	| const_val '-' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
+	| const_val '*' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("*", strconcat(intToStr($3), ";"))); }
+	| const_val '/' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
 
 definition:
-	VARIABLE COLON DEF_INTEGER SEMICOLON	{ $$ = strconcat("int ", strconcat($1, ";"));}
+	VARIABLE COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
 
 assignment:
-	VARIABLE ASSIGNMENT math		{ $$ = strconcat($1, strconcat("=",$3)); }
+	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
 	
 
 %%
