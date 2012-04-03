@@ -15,7 +15,7 @@ variable 	{alpha}({alpha}|{digit})*
 "integer"	{return VAR_INTEGER;}
 
 {variable}	{
-		  yylval.str = yytext;
+		  yylval.str = strdup(yytext);
 		  return VARIABLE;
 		}
 [0-9]+		{
