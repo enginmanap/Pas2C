@@ -18,6 +18,7 @@
 %token ASSIGNMENT
 %token START_PROGRAM
 %token PERIOD
+%token COLON
 %token <str> VARIABLE
 
 
@@ -55,10 +56,10 @@ math:
 	| const_val '/' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
 
 definition:
-	 DEF_INTEGER VARIABLE SEMICOLON		{ $$ = strconcat("int ", strconcat($2, ";"));}
+	VARIABLE COLON DEF_INTEGER SEMICOLON	{ $$ = strconcat("int ", strconcat($1, ";"));}
 
 assignment:
-	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
+	VARIABLE ASSIGNMENT math		{ $$ = strconcat($1, strconcat("=",$3)); }
 	
 
 %%

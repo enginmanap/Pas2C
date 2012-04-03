@@ -15,6 +15,8 @@ variable 	{alpha}({alpha}|{digit})*
 "end"		{ return BLOCK_END;  }
 "integer"	{ return DEF_INTEGER; }
 ":="		{ return ASSIGNMENT; }
+"."		{ return PERIOD; }
+":"		{ return COLON; }
 
 {variable}	{
 		  yylval.str = strdup(yytext);
@@ -26,7 +28,6 @@ variable 	{alpha}({alpha}|{digit})*
 		}
 [-+/*]		return *yytext;
 ;		return SEMICOLON;
-"."		return PERIOD;
 
 [ \t\n]+ 	; /* skip whitespace */
 . yyerror("invalid character");
