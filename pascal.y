@@ -27,6 +27,7 @@ program:
 	program block				{ printf("\n"); }
 	|
 	;
+
 const_val:
 	INTEGER					{ $$ = $1; }
 
@@ -34,7 +35,7 @@ block:
 	BLOCK_BEGIN func BLOCK_END		{ printf("{ %s }", $2); }
 
 func:
-	| const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
+	const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
 	| const_val '-' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
 	| const_val '*' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("*", strconcat(intToStr($3), ";"))); }
 	| const_val '/' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }

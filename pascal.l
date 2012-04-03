@@ -22,7 +22,7 @@ variable 	{alpha}({alpha}|{digit})*
 		  yylval.num = atoi(yytext);
 		  return INTEGER;
 		}
-[-+]		return *yytext;
+[-+/*]		return *yytext;
 ;		return SEMICOLON;
 
 [ \t\n]+ 	; /* skip whitespace */
