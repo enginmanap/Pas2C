@@ -34,9 +34,9 @@ block:
 	BLOCK_BEGIN func BLOCK_END		{ printf("{ %s }", $2); }
 
 func:
-	| const_val '+' const_val		{ char* temp = " + "; $$ = strconcat(intToStr($1), strconcat(temp, intToStr($3))); }
-	| const_val '-' const_val		{ char* temp = " - "; $$ = strconcat(intToStr($1), strconcat(temp, intToStr($3))); }
-	| VAR_INTEGER VARIABLE SEMICOLON	{ char* temp = "int "; $$ = strconcat(temp, $2);}
+	| const_val '+' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
+	| const_val '-' const_val SEMICOLON	{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
+	| VAR_INTEGER VARIABLE SEMICOLON	{ $$ = strconcat("int ", $2);}
 
 %%
 void yyerror(char *s) {
