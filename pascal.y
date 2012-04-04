@@ -19,16 +19,17 @@
 %token START_PROGRAM
 %token PERIOD
 %token COLON
+%token DOUBLE_QUOTES
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list main_block program_definition function
+%type <str> program block math definition assignment stmt stmt_list main_block program_definition function var_list const_string
 %type <num> const_val
 
 %%
  
 program:
-	program_definition				{ printf("%s \n", $1); }
+	program_definition				{ printf("%s\n", $1); }
 	;
 
 program_definition:	
@@ -68,7 +69,15 @@ assignment:
 
 function:
 	VARIABLE '(' VARIABLE ')' SEMICOLON		{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
-	
+	| VARIABLE '(' const_string ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
+
+var_list:
+	VARIABLE					{ $$ = $1; }
+	| var_list VARIABLE				{ $$ = strconcat($1, strconcat(" ",$2)); }
+
+const_string:
+	DOUBLE_QUOTES var_list DOUBLE_QUOTES 		{ $$ = strconcat("\"", strconcat($2, "\"")); }
+
 
 %%
 void yyerror(char *s) {

@@ -18,6 +18,7 @@ variable 	{alpha}({alpha}|{digit})*
 ":="		{ return ASSIGNMENT; }
 "."		{ return PERIOD; }
 ":"		{ return COLON; }
+"\""		{ return DOUBLE_QUOTES; }
 
 {variable}	{
 		  yylval.str = strdup(yytext);
