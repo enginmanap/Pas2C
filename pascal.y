@@ -22,23 +22,27 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list main_block
+%type <str> program block math definition assignment stmt stmt_list main_block program_definition
 %type <num> const_val
 
 %%
  
 program:
-	main_block					{ printf("%s \n", $1); }
+	program_definition				{ printf("%s \n", $1); }
+	;
+
+program_definition:	
+	START_PROGRAM VARIABLE SEMICOLON main_block	{ $$ = strconcat("int main() ", $4);}
 	;
 
 main_block:
-	START_PROGRAM VARIABLE SEMICOLON block PERIOD	{ $$ = strconcat("int main() ", $4);}
-	;
+	BLOCK_BEGIN stmt_list BLOCK_END PERIOD		{ $$ = strconcat("{", strconcat($2,"}")); }
+
 const_val:
 	INTEGER						{ $$ = $1; }
 
 block:
-	BLOCK_BEGIN stmt_list BLOCK_END			{ $$ = strconcat("{", strconcat($2,"}")); }
+	BLOCK_BEGIN stmt_list BLOCK_END	SEMICOLON	{ $$ = strconcat("{", strconcat($2,"}")); }
 
 stmt_list:
 	stmt						{ $$ = $1; }
