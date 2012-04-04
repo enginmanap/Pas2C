@@ -17,13 +17,12 @@ Converting main block of begin end to {}
 Converting any valid sequence of begin end block to proper {}
 Converting statements, regardless of the position relative to blocks.
 	except the main block. every statement has to be in it.
-Converting integer value operations:
-	+,-,*,/ can be converted.
+Converting integer value and variable operations:
+	+,-,*,/ operations can be converted recursively.
 Converting integer definitions.
 Converting integer assignments:
-	assignments can be from one integer value or a result of two value operations "+ - / *".
 Converting functions:
 	currently only writeln implemented.
 	only 1 parameter can be passed.
 Converting of strings:
-	only double quotes work, and alphanumerical characters are valid.
+		valid c string can be converted, escape characters work too.
