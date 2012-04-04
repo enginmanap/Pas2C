@@ -24,8 +24,7 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list main_block program_definition function const_string
-%type <num> const_val
+%type <str> program block math definition assignment stmt stmt_list main_block program_definition function const_string math_value const_val
 
 %%
  
@@ -41,7 +40,7 @@ main_block:
 	BLOCK_BEGIN stmt_list BLOCK_END PERIOD		{ $$ = strconcat("{", strconcat($2,"}")); }
 
 const_val:
-	CONST_INTEGER						{ $$ = $1; }
+	CONST_INTEGER					{ $$ = intToStr($1); }
 
 block:
 	BLOCK_BEGIN stmt_list BLOCK_END	SEMICOLON	{ $$ = strconcat("{", strconcat($2,"}")); }
@@ -55,12 +54,16 @@ stmt:
 	| assignment 					{ $$ = $1; }
 	| function					{ $$ = $1; }
 	| block						{ $$ = $1; }
+
+math_value:
+	const_val					{ $$ = $1; }
+	| VARIABLE					{ $$ = $1; }
 math:
-	const_val SEMICOLON				{ $$ = strconcat(intToStr($1), ";"); }
-	| const_val '+' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("+", strconcat(intToStr($3), ";"))); }
-	| const_val '-' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("-", strconcat(intToStr($3), ";"))); }
-	| const_val '*' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("*", strconcat(intToStr($3), ";"))); }
-	| const_val '/' const_val SEMICOLON		{ $$ = strconcat(intToStr($1), strconcat("/", strconcat(intToStr($3), ";"))); }
+	math_value SEMICOLON				{ $$ = strconcat($1, ";"); }
+	| math_value '+' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("+", strconcat($3, ";"))); }
+	| math_value '-' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("-", strconcat($3, ";"))); }
+	| math_value '*' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("*", strconcat($3, ";"))); }
+	| math_value '/' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("/", strconcat($3, ";"))); }
 
 definition:
 	VARIABLE COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
