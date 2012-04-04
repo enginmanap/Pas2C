@@ -67,7 +67,7 @@ assignment:
 	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
 
 function:
-	VARIABLE '(' ')' SEMICOLON			{ $$ = strconcat(findCVariant($1), strconcat("()", ";")); }
+	VARIABLE '(' VARIABLE ')' SEMICOLON		{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
 	
 
 %%
