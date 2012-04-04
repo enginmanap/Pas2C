@@ -11,6 +11,7 @@
 }
 
 %token <num> CONST_INTEGER
+%token <str> CONST_STRING
 %token BLOCK_BEGIN
 %token BLOCK_END
 %token DEF_INTEGER
@@ -23,7 +24,7 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list main_block program_definition function var_list const_string
+%type <str> program block math definition assignment stmt stmt_list main_block program_definition function const_string
 %type <num> const_val
 
 %%
@@ -71,12 +72,8 @@ function:
 	VARIABLE '(' VARIABLE ')' SEMICOLON		{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
 	| VARIABLE '(' const_string ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
 
-var_list:
-	VARIABLE					{ $$ = $1; }
-	| var_list VARIABLE				{ $$ = strconcat($1, strconcat(" ",$2)); }
-
 const_string:
-	DOUBLE_QUOTES var_list DOUBLE_QUOTES 		{ $$ = strconcat("\"", strconcat($2, "\"")); }
+	CONST_STRING			 		{ $$ = $1; }
 
 
 %%

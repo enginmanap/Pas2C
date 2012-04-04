@@ -7,6 +7,8 @@
 digit           [0-9]
 alpha           [a-zA-Z]
 variable 	{alpha}({alpha}|{digit})*
+const_string 	L?\"(\\.|[^\\"])*\"
+	
 
 %%
 
@@ -23,6 +25,10 @@ variable 	{alpha}({alpha}|{digit})*
 {variable}	{
 		  yylval.str = strdup(yytext);
 		  return VARIABLE;
+		}
+{const_string}	{
+		  yylval.str = strdup(yytext);
+		  return CONST_STRING;
 		}
 [0-9]+		{
 		  yylval.num = atoi(yytext);
