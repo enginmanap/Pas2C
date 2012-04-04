@@ -29,3 +29,7 @@ char* findCVariant(char* str1) {
     
 }
 
+void generateHeader() {
+    printf("#include <stdio.h>\n");
+    return;
+}

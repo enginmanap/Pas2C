@@ -85,6 +85,7 @@ void yyerror(char *s) {
 }
 
 int main(void) {
+	generateHeader();
 	yyparse();
 	return 0;
 }
