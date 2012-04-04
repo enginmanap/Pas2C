@@ -60,10 +60,10 @@ math_value:
 	| VARIABLE					{ $$ = $1; }
 math:
 	math_value SEMICOLON				{ $$ = strconcat($1, ";"); }
-	| math_value '+' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("+", strconcat($3, ";"))); }
-	| math_value '-' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("-", strconcat($3, ";"))); }
-	| math_value '*' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("*", strconcat($3, ";"))); }
-	| math_value '/' math_value SEMICOLON		{ $$ = strconcat($1, strconcat("/", strconcat($3, ";"))); }
+	| math_value '+' math				{ $$ = strconcat($1, strconcat("+", $3)); }
+	| math_value '-' math				{ $$ = strconcat($1, strconcat("-", $3)); }
+	| math_value '*' math				{ $$ = strconcat($1, strconcat("*", $3)); }
+	| math_value '/' math				{ $$ = strconcat($1, strconcat("/", $3)); }
 
 definition:
 	VARIABLE COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
