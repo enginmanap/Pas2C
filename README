@@ -2,13 +2,19 @@ Pas2C pascal to C Source Code Converter
 
 Build dependencies:
 
-Bison, Yacc and gcc.
 
-How To build:
+Bison, Yacc and gcc. astyle if you want to use the converter script.
 
-just run build file.
+How To Use:
 
-converter currently inputs from stdin, and outputs to stdout. Easiest way to use is stream redirection via <|>.
+first run the build script. Then use the converter as this:
+
+sh converter.sh input_file output_file
+
+if no output file given, it creates a file named output.c.
+
+if you want to use stdin/stdout, you can call pas2c directly.
+
 
 Current Features:
 
@@ -25,4 +31,4 @@ Converting functions:
 	currently only writeln implemented.
 	only 1 parameter can be passed.
 Converting of strings:
-		valid c string can be converted, escape characters work too.
+	valid c string can be converted, escape characters work too.
