@@ -17,4 +17,15 @@ char* intToStr(int number) {
     sprintf(buffer, "%d", number);
     return buffer;
 }
+
+char* findCVariant(char* str1) {
+    if (!strcmp("writeln",str1))
+	return "printf";
+    else 
+	if (!strcmp("readln",str1))
+            return "scanf";
+	else
+	    return str1;
     
+}
+

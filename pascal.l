@@ -14,6 +14,7 @@ variable 	{alpha}({alpha}|{digit})*
 "begin"		{ return BLOCK_BEGIN; }
 "end"		{ return BLOCK_END;  }
 "integer"	{ return DEF_INTEGER; }
+"var"		; /* skip since c does not need */
 ":="		{ return ASSIGNMENT; }
 "."		{ return PERIOD; }
 ":"		{ return COLON; }
@@ -26,7 +27,7 @@ variable 	{alpha}({alpha}|{digit})*
 		  yylval.num = atoi(yytext);
 		  return INTEGER;
 		}
-[-+/*]		return *yytext;
+[-+/*()]	return *yytext;
 ;		return SEMICOLON;
 
 [ \t\n]+ 	; /* skip whitespace */

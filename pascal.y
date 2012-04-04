@@ -22,7 +22,7 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math definition assignment stmt stmt_list main_block program_definition
+%type <str> program block math definition assignment stmt stmt_list main_block program_definition function
 %type <num> const_val
 
 %%
@@ -51,6 +51,7 @@ stmt:
 	math						{ $$ = $1; }
 	| definition	 				{ $$ = $1; }
 	| assignment 					{ $$ = $1; }
+	| function					{ $$ = $1; }
 	| block						{ $$ = $1; }
 math:
 	const_val SEMICOLON				{ $$ = strconcat(intToStr($1), ";"); }
@@ -64,6 +65,9 @@ definition:
 
 assignment:
 	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
+
+function:
+	VARIABLE '(' ')' SEMICOLON			{ $$ = strconcat(findCVariant($1), strconcat("()", ";")); }
 	
 
 %%
