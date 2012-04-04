@@ -1,1 +1,29 @@
 Pas2C pascal to C Source Code Converter
+
+Build dependencies:
+
+Bison, Yacc and gcc.
+
+How To build:
+
+just run build file.
+
+converter currently inputs from stdin, and outputs to stdout. Easiest way to use is stream redirection via <|>.
+
+Current Features:
+
+Converting program %program_name%; to int main()
+Converting main block of begin end to {}
+Converting any valid sequence of begin end block to proper {}
+Converting statements, regardless of the position relative to blocks.
+	except the main block. every statement has to be in it.
+Converting integer value operations:
+	+,-,*,/ can be converted.
+Converting integer definitions.
+Converting integer assignments:
+	assignments can be from one integer value or a result of two value operations "+ - / *".
+Converting functions:
+	currently only writeln implemented.
+	only 1 parameter can be passed.
+Converting of strings:
+	only double quotes work, and alphanumerical characters are valid.
