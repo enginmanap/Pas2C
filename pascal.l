@@ -26,7 +26,7 @@ variable 	{alpha}({alpha}|{digit})*
 		}
 [0-9]+		{
 		  yylval.num = atoi(yytext);
-		  return INTEGER;
+		  return CONST_INTEGER;
 		}
 [-+/*()]	return *yytext;
 ;		return SEMICOLON;

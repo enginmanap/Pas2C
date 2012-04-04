@@ -10,7 +10,7 @@
 	char* str;
 }
 
-%token <num> INTEGER
+%token <num> CONST_INTEGER
 %token BLOCK_BEGIN
 %token BLOCK_END
 %token DEF_INTEGER
@@ -40,7 +40,7 @@ main_block:
 	BLOCK_BEGIN stmt_list BLOCK_END PERIOD		{ $$ = strconcat("{", strconcat($2,"}")); }
 
 const_val:
-	INTEGER						{ $$ = $1; }
+	CONST_INTEGER						{ $$ = $1; }
 
 block:
 	BLOCK_BEGIN stmt_list BLOCK_END	SEMICOLON	{ $$ = strconcat("{", strconcat($2,"}")); }
