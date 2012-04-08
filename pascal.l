@@ -21,6 +21,7 @@ const_string 	L?\"(\\.|[^\\"])*\"
 ":="		{ return ASSIGNMENT; }
 "="		{ return EQUAL_SIGN; }
 "."		{ return PERIOD; }
+","		{ return COMMA; }
 ":"		{ return COLON; }
 "\""		{ return DOUBLE_QUOTES; }
 

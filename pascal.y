@@ -3,6 +3,7 @@
   #include "custom.h" 
   int yylex(void);
   void yyerror(char *);
+
 %}
 
 %union{
@@ -22,13 +23,14 @@
 %token ASSIGNMENT
 %token START_PROGRAM
 %token PERIOD
+%token COMMA
 %token COLON
 %token DOUBLE_QUOTES
 %token <str> VARIABLE
 
 
 %type <str> program block math variable_definition assignment stmt stmt_list main_block program_definition function const_string math_value const_val
-%type <str> const_block var_block const_definition const_definition_list variable_definition_list
+%type <str> const_block var_block const_definition const_definition_list variable_definition_list func_parameter func_parameter_list
 
 %%
  
@@ -96,9 +98,16 @@ variable_definition:
 assignment:
 	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
 
+func_parameter_list:
+	func_parameter					{ $$ = $1;}
+	| func_parameter_list COMMA func_parameter	{ $$ = strconcat($1, strconcat(",",$3));}
+
+func_parameter:
+	const_string					{ $$ = $1; }
+	| VARIABLE					{ $$ = $1; }
+
 function:
-	VARIABLE '(' VARIABLE ')' SEMICOLON		{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
-	| VARIABLE '(' const_string ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, strconcat(")", ";")))); }
+	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, ");"))); }
 
 const_string:
 	CONST_STRING			 		{ $$ = $1; }
