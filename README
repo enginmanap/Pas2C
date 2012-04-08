@@ -19,7 +19,7 @@ if you want to use stdin/stdout, you can call pas2c directly.
 Current Features:
 
 Converting program %program_name%; to int main()
-Converting main block of begin end to {}
+Converting var and const blocks.
 Converting any valid sequence of begin end block to proper {}
 Converting statements, regardless of the position relative to blocks.
 	except the main block. every statement has to be in it.
@@ -31,4 +31,4 @@ Converting functions:
 	currently only writeln implemented.
 	only 1 parameter can be passed.
 Converting of strings:
-	valid c string can be converted, escape characters work too.
+	valid c string can be tokenized, escape characters too. But conversation between pascal strings to c strings is not implemented.

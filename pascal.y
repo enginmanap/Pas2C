@@ -4,11 +4,20 @@
   int yylex(void);
   void yyerror(char *);
 
+  struct variable_attributes{
+    int type;
+    char* name;
+    union{
+      int un_int;
+      char* un_str;
+    }data;
+  }
 %}
 
 %union{
 	int num;
 	char* str;
+	struct variable_attributes variable;
 }
 
 %token <num> CONST_INTEGER
