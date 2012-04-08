@@ -16,8 +16,10 @@ const_string 	L?\"(\\.|[^\\"])*\"
 "begin"		{ return BLOCK_BEGIN; }
 "end"		{ return BLOCK_END;  }
 "integer"	{ return DEF_INTEGER; }
-"var"		; /* skip since c does not need */
+"var"		{ return VAR_BLOCK_START; }
+"const"		{ return CONST_BLOCK_START; }
 ":="		{ return ASSIGNMENT; }
+"="		{ return EQUAL_SIGN; }
 "."		{ return PERIOD; }
 ":"		{ return COLON; }
 "\""		{ return DOUBLE_QUOTES; }
@@ -34,8 +36,8 @@ const_string 	L?\"(\\.|[^\\"])*\"
 		  yylval.num = atoi(yytext);
 		  return CONST_INTEGER;
 		}
-[-+/*()]	return *yytext;
-;		return SEMICOLON;
+[-+/*()]	{ return *yytext; }
+;		{ return SEMICOLON; }
 
 [ \t\n]+ 	; /* skip whitespace */
 . yyerror("invalid character");
