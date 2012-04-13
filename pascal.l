@@ -4,10 +4,10 @@
   #include "y.tab.h"
 %}
 
-digit           [0-9]
-alpha           [a-zA-Z]
-variable 	{alpha}({alpha}|{digit})*
-const_string 	L?\'(\\.|[^\\'])*\'
+digit                       [0-9]
+alpha                       [a-zA-Z]
+variable 	                {alpha}({alpha}|{digit})*
+const_string 	            L?\'(\\.|[^\\'])*\'
 	
 
 %%
