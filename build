@@ -1,4 +1,4 @@
 bison -y -d -v pascal.y
 flex pascal.l
-gcc -c y.tab.c lex.yy.c
-gcc y.tab.o lex.yy.o -o pas2c 
+gcc -g -c y.tab.c lex.yy.c
+gcc -g y.tab.o lex.yy.o -o pas2c 
