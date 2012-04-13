@@ -4,20 +4,11 @@
   int yylex(void);
   void yyerror(char *);
 
-  struct variable_attributes{
-    int type;
-    char* name;
-    union{
-      int un_int;
-      char* un_str;
-    }data;
-  }
 %}
 
 %union{
 	int num;
 	char* str;
-	struct variable_attributes variable;
 }
 
 %token <num> CONST_INTEGER
@@ -112,11 +103,12 @@ func_parameter_list:
 	| func_parameter_list COMMA func_parameter	{ $$ = strconcat($1, strconcat(",",$3));}
 
 func_parameter:
-	const_string					{ $$ = $1; }
-	| VARIABLE					{ $$ = $1; }
+	const_string					{ $$ = $1; VariableAttributes var; var.name="str"; var.data.un_str=$1; addParameterToList(var);}
+	| VARIABLE					{ $$ = $1; VariableAttributes var; var.name="var"; var.data.un_str=$1; addParameterToList(var);}
+	| CONST_INTEGER					{ $$ = intToStr($1); VariableAttributes var; var.name="int"; var.data.un_int=$1; addParameterToList(var);}
 
 function:
-	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, ");"))); }
+	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, ");"))); printParameterList();}
 
 const_string:
 	CONST_STRING			 		{ $$ = $1; }
