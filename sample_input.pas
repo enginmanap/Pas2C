@@ -4,7 +4,7 @@ const
     const2 = 7;
 var
     variable1 : integer;
-    variable2 : integer;
+    variable2, variable3,variable15 : integer;
 begin
 
     variable2 := 40 / 3;
@@ -13,7 +13,7 @@ begin
     end;
 
     writeln('hello world!');
-    writeln('first variable is:', variable1, ', and second variable is:', variable2);
+    writeln('first variable is:', variable1, ', and second variable is:', variable2, 'const1 is:', const1);
     writeln('We can print this way too!');
     write('first variable is:', variable1);
     writeln(', and second variable is:', variable2);

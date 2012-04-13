@@ -31,6 +31,7 @@
 
 %type <str> program block math variable_declaration assignment stmt stmt_list main_block program_definition function const_string math_value const_val
 %type <str> const_block var_block const_declaration const_declaration_list variable_declaration_list func_parameter func_parameter_list
+%type <str> variable_list_for_declaration
 
 %%
  
@@ -91,8 +92,12 @@ variable_declaration_list:
 	variable_declaration				{ $$ = $1; }
 	| variable_declaration_list variable_declaration	{ $$ = strconcat($1,$2); }
 
+variable_list_for_declaration:
+    VARIABLE                                        { $$ = $1; }
+    | variable_list_for_declaration COMMA VARIABLE  { $$ = strconcat($1, strconcat(", ", $3));}
+
 variable_declaration:
-	VARIABLE COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
+	variable_list_for_declaration COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
 
 
 assignment:
