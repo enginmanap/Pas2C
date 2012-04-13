@@ -29,8 +29,8 @@
 %token <str> VARIABLE
 
 
-%type <str> program block math variable_definition assignment stmt stmt_list main_block program_definition function const_string math_value const_val
-%type <str> const_block var_block const_definition const_definition_list variable_definition_list func_parameter func_parameter_list
+%type <str> program block math variable_declaration assignment stmt stmt_list main_block program_definition function const_string math_value const_val
+%type <str> const_block var_block const_declaration const_declaration_list variable_declaration_list func_parameter func_parameter_list
 
 %%
  
@@ -39,12 +39,12 @@ program:
 	;
 
 const_block:
-	CONST_BLOCK_START const_definition_list		{ $$ = $2; }
+	CONST_BLOCK_START const_declaration_list		{ $$ = $2; }
 	|						{ $$ = "";}
 	;
 
 var_block:
-	VAR_BLOCK_START	variable_definition_list	{ $$ = $2; }
+	VAR_BLOCK_START	variable_declaration_list	{ $$ = $2; }
 	|						{ $$ = "";}
 	;
 
@@ -80,18 +80,18 @@ math:
 	| math_value '*' math				{ $$ = strconcat($1, strconcat("*", $3)); }
 	| math_value '/' math				{ $$ = strconcat($1, strconcat("/", $3)); }
 
-const_definition_list:
-	const_definition				{ $$ = $1; }
-	| const_definition_list const_definition	{ $$ = strconcat($1,$2); }
+const_declaration_list:
+	const_declaration				{ $$ = $1; }
+	| const_declaration_list const_declaration	{ $$ = strconcat($1,$2); }
 
-const_definition:
+const_declaration:
 	VARIABLE EQUAL_SIGN CONST_INTEGER SEMICOLON	{ $$ = strconcat("const int ", strconcat($1, strconcat("=", strconcat(intToStr($3),";"))));}
 
-variable_definition_list:
-	variable_definition				{ $$ = $1; }
-	| variable_definition_list variable_definition	{ $$ = strconcat($1,$2); }
+variable_declaration_list:
+	variable_declaration				{ $$ = $1; }
+	| variable_declaration_list variable_declaration	{ $$ = strconcat($1,$2); }
 
-variable_definition:
+variable_declaration:
 	VARIABLE COLON DEF_INTEGER SEMICOLON		{ $$ = strconcat("int ", strconcat($1, ";"));}
 
 
