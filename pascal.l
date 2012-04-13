@@ -6,7 +6,7 @@
 
 digit                       [0-9]
 alpha                       [a-zA-Z]
-variable 	                {alpha}({alpha}|{digit})*
+variable                    {alpha}({alpha}|{digit}|_)*
 const_string 	            L?\'(\\.|[^\\'])*\'
 	
 
