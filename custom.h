@@ -39,10 +39,9 @@ void cleanParameterList(){
     while(current){
         backup = current; 
         current = current->next;
-        free(backup->var.data.un_str);
-        free(backup->var.name);
         free(backup);
     }
+    parameterListHead.next = 0;
 }
 
 void printParameterList(){
@@ -74,10 +73,30 @@ char* intToStr(int number) {
     return buffer;
 }
 
-char* findCVariant(char* str1) {
-    if (!strcmp("writeln",str1))
-	return "printf";
-    else 
+char* createCVariantFor(char* str1) {
+    if (!strcmp("writeln",str1) || !strcmp("write",str1)){
+        char* returnValue = "printf(\"";
+        char* parameterListStr = "";
+        ParameterListNode* current = parameterListHead.next;
+        while(current){
+            if(current->var.name == "str"){
+                current->var.data.un_str[strlen(current->var.data.un_str)-1] = 0; //remove last element, which is '
+                current->var.data.un_str++;                                       //remove first element, which is '
+                returnValue = strconcat(returnValue, current->var.data.un_str);
+            } else if(current->var.name == "var"){
+                returnValue = strconcat(returnValue, "%d");
+                parameterListStr = strconcat(parameterListStr, strconcat(", ",current->var.data.un_str));
+            }
+            current = current->next;
+        }
+        if(!strcmp("writeln",str1))
+            returnValue = strconcat(returnValue, "\\n\"");
+        else
+            returnValue = strconcat(returnValue, "\"");
+        returnValue = strconcat(returnValue, strconcat(parameterListStr,");"));
+        cleanParameterList();
+        return returnValue;
+    } else 
 	if (!strcmp("readln",str1))
             return "scanf";
 	else

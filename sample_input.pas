@@ -12,5 +12,9 @@ begin
 	variable1 := variable2 + 5 * 40;
     end;
 
-    writeln("hello world!");
+    writeln('hello world!');
+    writeln('first variable is:', variable1, ', and second variable is:', variable2);
+    writeln('We can print this way too!');
+    write('first variable is:', variable1);
+    writeln(', and second variable is:', variable2);
 end.

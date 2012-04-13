@@ -108,7 +108,7 @@ func_parameter:
 	| CONST_INTEGER					{ $$ = intToStr($1); VariableAttributes var; var.name="int"; var.data.un_int=$1; addParameterToList(var);}
 
 function:
-	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = strconcat(findCVariant($1), strconcat("(", strconcat($3, ");"))); printParameterList();}
+	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = createCVariantFor($1); }
 
 const_string:
 	CONST_STRING			 		{ $$ = $1; }

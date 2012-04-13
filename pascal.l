@@ -7,7 +7,7 @@
 digit           [0-9]
 alpha           [a-zA-Z]
 variable 	{alpha}({alpha}|{digit})*
-const_string 	L?\"(\\.|[^\\"])*\"
+const_string 	L?\'(\\.|[^\\'])*\'
 	
 
 %%
