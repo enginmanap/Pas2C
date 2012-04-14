@@ -12,12 +12,11 @@ begin
     writeln('the number is :',variable_1);
     writeln('Enter two more:');
     readln(variable2, variable3);
-    variable15 := variable2 / variable3;
     begin
-	variable_1 := variable2 + variable15;
+	variable15 := variable2 / variable3;
     end;
 
-    writeln(variable2, ' + ', variable2, ' / ', variable3);
+    writeln(variable_1, ' + ', variable2, ' / ', variable3);
     write('is ');
-    writeln(variable_1);
+    writeln(variable_1 + variable15);
 end.

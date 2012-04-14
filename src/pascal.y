@@ -31,7 +31,7 @@
 
 %type <str> program block math variable_declaration assignment stmt stmt_list main_block program_definition function const_string math_value const_val
 %type <str> const_block var_block const_declaration const_declaration_list variable_declaration_list func_parameter func_parameter_list
-%type <str> variable_list_for_declaration
+%type <str> variable_list_for_declaration math_statement
 
 %%
  
@@ -66,7 +66,7 @@ stmt_list:
 	stmt						{ $$ = $1; }
 	| stmt_list stmt				{ $$ = strconcat($1, $2); }
 stmt:
-	math						{ $$ = $1; }
+	math_statement					{ $$ = $1; }
 	| assignment 					{ $$ = $1; }
 	| function					{ $$ = $1; }
 	| block						{ $$ = $1; }
@@ -75,11 +75,14 @@ math_value:
 	const_val					{ $$ = $1; }
 	| VARIABLE					{ $$ = $1; }
 math:
-	math_value SEMICOLON				{ $$ = strconcat($1, ";"); }
+        | math_value                                    { $$ = $1; }
 	| math_value '+' math				{ $$ = strconcat($1, strconcat("+", $3)); }
 	| math_value '-' math				{ $$ = strconcat($1, strconcat("-", $3)); }
 	| math_value '*' math				{ $$ = strconcat($1, strconcat("*", $3)); }
 	| math_value '/' math				{ $$ = strconcat($1, strconcat("/", $3)); }
+
+math_statement:
+	math SEMICOLON				{ $$ = strconcat($1, ";"); }
 
 const_declaration_list:
 	const_declaration				{ $$ = $1; }
@@ -101,7 +104,7 @@ variable_declaration:
 
 
 assignment:
-	VARIABLE ASSIGNMENT math			{ $$ = strconcat($1, strconcat("=",$3)); }
+	VARIABLE ASSIGNMENT math_statement		{ $$ = strconcat($1, strconcat("=",$3)); }
 
 func_parameter_list:
 	func_parameter					{ $$ = $1;}
@@ -109,8 +112,7 @@ func_parameter_list:
 
 func_parameter:
 	const_string					{ $$ = $1; VariableAttributes var; var.name="str"; var.data.un_str=$1; addParameterToList(var);}
-	| VARIABLE					{ $$ = $1; VariableAttributes var; var.name="var"; var.data.un_str=$1; addParameterToList(var);}
-	| CONST_INTEGER					{ $$ = intToStr($1); VariableAttributes var; var.name="int"; var.data.un_int=$1; addParameterToList(var);}
+	| math  					{ $$ = $1; VariableAttributes var; var.name="var"; var.data.un_str=$1; addParameterToList(var);}
 
 function:
 	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = createCVariantFor($1); }
