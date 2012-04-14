@@ -96,10 +96,29 @@ char* createCVariantFor(char* str1) {
         returnValue = strconcat(returnValue, strconcat(parameterListStr,");"));
         cleanParameterList();
         return returnValue;
-    } else 
-	if (!strcmp("readln",str1))
-            return "scanf";
-	else
+    } else if (!strcmp("readln",str1) || !strcmp("read",str1)) {
+        char* returnValue = "scanf(\"";
+        char* parameterListStr = "";
+        ParameterListNode* current = parameterListHead.next;
+        
+        while(current){
+            if(current->var.name == "var"){
+                if(current->next)
+                    returnValue = strconcat(returnValue, "%d ");
+                else
+                    returnValue = strconcat(returnValue, "%d");
+                parameterListStr = strconcat(parameterListStr, strconcat(", &",current->var.data.un_str));
+            }
+            current = current->next;
+        }
+        returnValue = strconcat(returnValue, "\"");
+        returnValue = strconcat(returnValue, strconcat(parameterListStr,");"));
+        if(!strcmp("readln",str1))
+            returnValue = strconcat(returnValue, "fflush(stdin);");            
+        
+        cleanParameterList();
+        return returnValue;
+    } else
 	    return str1;
     
 }

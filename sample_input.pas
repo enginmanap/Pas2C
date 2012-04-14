@@ -6,15 +6,18 @@ var
     variable_1 : integer;
     variable2, variable3,variable15 : integer;
 begin
-
-    variable2 := 40 / 3;
+    writeln('Hello world!');
+    write('Please enter a number :');
+    read(variable_1);
+    writeln('the number is :',variable_1);
+    writeln('Enter two more:');
+    readln(variable2, variable3);
+    variable15 := variable2 / variable3;
     begin
-	variable_1 := variable2 + 5 * 40;
+	variable_1 := variable2 + variable15;
     end;
 
-    writeln('hello world!');
-    writeln('first variable is:', variable_1, ', and second variable is:', variable2, 'const1 is:', const1);
-    writeln('We can print this way too!');
-    write('first variable is:', variable_1);
-    writeln(', and second variable is:', variable2);
+    writeln(variable2, ' + ', variable2, ' / ', variable3);
+    write('is ');
+    writeln(variable_1);
 end.
