@@ -42,5 +42,4 @@ Converting functions:
 Converting of strings:
         strings starting with single quotation marks and ends with it can be converted. 
         escaping not implemented. 
-        c spesific escaping is not fixed, if tokenized string has them, resulting code will have them too.
 

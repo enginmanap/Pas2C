@@ -118,7 +118,7 @@ function:
 	VARIABLE '(' func_parameter_list ')' SEMICOLON	{ $$ = createCVariantFor($1); }
 
 const_string:
-	CONST_STRING			 		{ $$ = $1; }
+	CONST_STRING			 		{ $$ = cleanString($1); }
 
 
 %%

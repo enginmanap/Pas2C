@@ -57,6 +57,35 @@ void printParameterList(){
     }
 }
 
+char* cleanString(char* str){
+    char current = str[0];
+    int element = 0;
+    int size = 0;
+    while(current != '\0'){
+        if(current == '\\')
+            size++;
+        size++;
+        element++;
+        current = str[element];
+    }
+    char* new_str = (char*)malloc((size + 1)* sizeof(char));
+    element = 0;
+    current = str[element];
+    size = 0;
+    while(current){
+        if(current == '\\'){
+            new_str[size] = '\\';
+            size++;
+        }
+        new_str[size] = current;
+        element++;
+        current = str[element];
+        size++;
+    }
+    
+    return new_str;
+    
+}
 
 char* strconcat(char* str1, char* str2) {
     int str1_len = strlen(str1);

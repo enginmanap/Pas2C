@@ -9,7 +9,7 @@ begin
     writeln('Hello world!');
     write('Please enter a number :');
     read(variable_1);
-    writeln('the number is :',variable_1);
+    writeln('the nu\mber is :',variable_1);
     writeln('Enter two more:');
     readln(variable2, variable3);
     begin
