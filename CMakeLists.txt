@@ -21,10 +21,10 @@ MACRO(YACC_FILE)
  ADD_CUSTOM_COMMAND(
    SOURCE ${PROJECT_SOURCE_DIR}/src/pascal.l
    COMMAND ${LEX_EXE} 
-   ARGS -o${PROJECT_BINARY_DIR}/pascal_lexer.c
+   ARGS -o${PROJECT_BINARY_DIR}/comp/pascal_lexer.c
         ${PROJECT_SOURCE_DIR}/src/pascal.l
    TARGET FooParser
-   OUTPUTS ${PROJECT_BINARY_DIR}/pascal_lexer.c)
+   OUTPUTS ${PROJECT_BINARY_DIR}/comp/pascal_lexer.c)
 
 ENDMACRO(YACC_FILE)
 
@@ -32,19 +32,21 @@ ENDMACRO(YACC_FILE)
 MACRO(LEX_FILE)
  ADD_CUSTOM_COMMAND(
    SOURCE ${PROJECT_SOURCE_DIR}/src/pascal.y
-   COMMAND ${YACC_EXE}
- 
-   ARGS -y -d -v ${PROJECT_SOURCE_DIR}/src/pascal.y
+   COMMAND ${YACC_EXE} 
+   ARGS -o${PROJECT_BINARY_DIR}/comp/y.tab.c
+   -y -d -v ${PROJECT_SOURCE_DIR}/src/pascal.y
    TARGET FooParser
-   DEPENDS ${PROJECT_BINARY_DIR}/pascal_lexer.c
-   OUTPUTS ${PROJECT_BINARY_DIR}/y.tab.c
-   	   ${PROJECT_BINARY_DIR}/y.tab.h)
+   DEPENDS ${PROJECT_BINARY_DIR}/comp/pascal_lexer.c
+   OUTPUTS ${PROJECT_BINARY_DIR}/comp/y.tab.c
+   	   ${PROJECT_BINARY_DIR}/comp/y.tab.h)
 
 ENDMACRO(LEX_FILE)
 
 # just one more parsing executable
+file(MAKE_DIRECTORY comp)
+
 FILE(COPY ${PROJECT_SOURCE_DIR}/src/custom.h
-     DESTINATION ${PROJECT_BINARY_DIR}/)
+     DESTINATION ${PROJECT_BINARY_DIR}/comp/)
 
 FILE(COPY ${PROJECT_SOURCE_DIR}/src/converter.sh
      DESTINATION ${PROJECT_BINARY_DIR}/)
@@ -52,17 +54,17 @@ FILE(COPY ${PROJECT_SOURCE_DIR}/src/converter.sh
 YACC_FILE()
 LEX_FILE()
 # Add parser.c to the list of sources
- SET(PROJECT_SRCS ${PROJECT_SRCS} ${PROJECT_BINARY_DIR}/y.tab.c)
- SET(PROJECT_SRCS ${PROJECT_SRCS} ${PROJECT_BINARY_DIR}/y.tab.h)
+ SET(PROJECT_SRCS ${PROJECT_SRCS} ${PROJECT_BINARY_DIR}/comp/y.tab.c)
+ SET(PROJECT_SRCS ${PROJECT_SRCS} ${PROJECT_BINARY_DIR}/comp/y.tab.h)
 
 # Since parser.c does not exists yet when cmake is run, mark
 # it as generated
- SET_SOURCE_FILES_PROPERTIES(${PROJECT_BINARY_DIR}/src/y.tab.c GENERATED)
+ SET_SOURCE_FILES_PROPERTIES(${PROJECT_BINARY_DIR}/comp/y.tab.c GENERATED)
 
 # Include binary directory to include lexer.c in parser.c
- INCLUDE_DIRECTORIES(${PROJECT_BINARY_DIR}/src)
+ INCLUDE_DIRECTORIES(${PROJECT_BINARY_DIR}/comp/)
 
 add_executable(pas2c
-    ${PROJECT_BINARY_DIR}/y.tab.c
-    ${PROJECT_BINARY_DIR}/pascal_lexer.c
+    ${PROJECT_BINARY_DIR}/comp/y.tab.c
+    ${PROJECT_BINARY_DIR}/comp/pascal_lexer.c
 )
