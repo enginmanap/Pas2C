@@ -2,12 +2,21 @@ Pas2C pascal to C Source Code Converter
 
 Build dependencies:
 
-
 Bison, Yacc and gcc. astyle if you want to use the converter script.
 
+How to Build:
+
+Pas2C uses cmake. you can build the project with these steps:
+
+    1. enter the project directory.
+    2. mkdir build
+    3. cd build
+    4. cmake ../
+    5. make
+    
 How To Use:
 
-first run the build script. Then use the converter as this:
+Use the converter as this:
 
 sh converter.sh input_file output_file
 
@@ -25,10 +34,13 @@ Converting statements, regardless of the position relative to blocks.
 	except the main block. every statement has to be in it.
 Converting integer value and variable operations:
 	+,-,*,/ operations can be converted recursively.
-Converting integer definitions.
+Converting integer declarations.
 Converting integer assignments:
 Converting functions:
-	currently only writeln implemented.
-	only 1 parameter can be passed.
+	currently write/ln and read/ln implemented.
+	unlimited parameters can be passed, also mathematical expressions can be used as parameters.
 Converting of strings:
-	valid c string can be tokenized, escape characters too. But conversation between pascal strings to c strings is not implemented.
+        strings starting with single quotation marks and ends with it can be converted. 
+        escaping not implemented. 
+        c spesific escaping is not fixed, if tokenized string has them, resulting code will have them too.
+
