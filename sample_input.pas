@@ -1,22 +1,29 @@
-program testprogram;
-const
-    const1 = 5;
-    const2 = 7;
 var
-    variable_1 : integer;
-    variable2, variable3,variable15 : integer;
+ s,i,a,p:longint;
+function f (x : longint) : integer; 
+var a, b: integer; 
 begin
-    writeln('Hello world!');
-    write('Please enter a number :');
-    read(variable_1);
-    writeln('the nu\mber is :',variable_1);
-    writeln('Enter two more:');
-    readln(variable2, variable3);
-    begin
-	variable15 := variable2 / variable3;
-    end;
-
-    writeln(variable_1, ' + ', variable2, ' / ', variable3);
-    write('is ');
-    writeln(variable_1 + variable15);
-end.
+  a:=0;
+  b:=0;
+  while(x>0) do
+  begin    
+    if x mod 2 = 0 then
+    a:=a+1
+    else
+    b:=b+1;
+    x:=x div 10;
+  end;
+  if a = 0 then  f:=1;
+  if b = 0 then f:=2;
+  if (a>0) and (b>0) then  f:=3;   
+end; 
+ begin
+ p:=0;s:=0;
+ for i:=1000 to 100000 do begin
+ a:=f(i);
+ if a = 1 then s:=s+1;
+ if a = 3 then p:=p+1; 
+ end;
+ writeln(s);
+ writeln(p);
+ end.
